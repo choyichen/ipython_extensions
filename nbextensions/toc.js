@@ -149,6 +149,17 @@ define(["require", "jquery", "base/js/namespace"], function (require, $, IPython
     }
   };
   
+  var toc_toggle_shortcut = function () {
+    IPython.keyboard_manager.command_shortcuts.add_shortcut('g', {
+      help : 'toggle toc',
+      help_index : 'g',
+      handler : function (event) {
+        toggle_toc();
+        return false;
+      }}
+    );
+  };
+
   var load_css = function () {
     var link = document.createElement("link");
     link.type = "text/css";
@@ -160,14 +171,15 @@ define(["require", "jquery", "base/js/namespace"], function (require, $, IPython
   var load_ipython_extension = function () {
     load_css();
     toc_button();
-    // $([IPython.events]).on("notebook_loaded.Notebook", table_of_contents);
+    $([IPython.events]).on("notebook_loaded.Notebook", table_of_contents);
+    $([IPython.events]).on("notebook_loaded.Notebook", toc_toggle_shortcut);
   };
 
   return {
     load_ipython_extension : load_ipython_extension,
     toggle_toc : toggle_toc,
     table_of_contents : table_of_contents,
-    
+    toc_toggle_shortcut : toc_toggle_shortcut
   };
 
 });
